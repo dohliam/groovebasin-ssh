@@ -1,12 +1,21 @@
 #!/bin/bash
 
-IP="localhost"	# remote IP address
+# groovebasin-ssh - bash script to stream music over SSH
+# 
+# to use this script you need to first install groovebasin:
+# http://groovebasin.com/
+
+# setup options
+IP="configure"	# remote IP address
 GB_LOC=".groovebasin"	# location of the remote groovebasin folder
 
+# forward ports to groovebasin and then start the groovebasin server
 MSG="Connecting to remote IP: $IP"
 
-# forward ports to groovebasin and then start the groovebasin server
-if [ "$1" == '' ]; then
+if [ "$IP" == 'configure' ]; then
+  echo " Unknown server. Please configure remote IP address and groovebasin folder location."
+  exit
+elif [ "$1" == '' ]; then
   echo $MSG
   ssh -t -t -L 16242:127.0.0.1:16242 $IP "cd $GB_LOC; groovebasin" &
 elif [ $1 == "-k" ]; then
