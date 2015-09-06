@@ -17,19 +17,23 @@ if [ "$IP" == 'configure' ]; then
   exit
 elif [ "$1" == '' ]; then
   echo $MSG
-  ssh -t -t -L 16242:127.0.0.1:16242 $IP "cd $GB_LOC; groovebasin" &
-elif [ $1 == "-k" ]; then
-  echo $MSG
-  ssh -t -t -L 16242:127.0.0.1:16242 $IP "killall nodejs; cd $GB_LOC; groovebasin" &
+  ssh -t -t -L 16242:127.0.0.1:16242 $IP &
 elif [ $1 == "-h" ]; then
   HLPTXT="\n**groovebasin-ssh - Stream music over SSH**\n\n
         ==Usage==\n
-        Default: Log into remote server over SSH, start the Groove Basin server, and open Groove Basin page in browser\n\n
+        Default:\tLog into remote server over SSH and forward \n\t\tGroove Basin server port, then open Groove \n\t\tBasin page in browser\n\n
         ==Options==\n
         -h\t\tShow this help text.\n
-        -k\t\tRemove database lock that may prevent Groove Basin from running if it was not closed properly.\n"
+        -k\t\tRemove database lock that may prevent Groove \n\t\tBasin from running if it was not closed \n\t\tproperly.\n
+        -s\t\tLog into remote server over SSH, start the \n\t\tGroove Basin server, and open Groove Basin \n\t\tpage in browser\n\n"
   echo -e $HLPTXT
   exit
+elif [ $1 == "-k" ]; then
+  echo $MSG
+  ssh -t -t -L 16242:127.0.0.1:16242 $IP "killall nodejs; cd $GB_LOC; groovebasin" &
+elif [ "$1" == '-s' ]; then
+  echo $MSG
+  ssh -t -t -L 16242:127.0.0.1:16242 $IP "cd $GB_LOC; groovebasin" &
 fi
 
 # open browser to Groove Basin page

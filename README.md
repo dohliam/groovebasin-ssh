@@ -13,6 +13,7 @@ Once SSH was set up, streaming was a fairly simple process:
 
 This eventually became a little tiresome to go through all the time, so this script automates the process entirely and even opens a browser window pointing to the Groove Basin url once the server is ready.
 
+*NOTE: Groove Basin is designed to run indefinitely in the background, and it is actually much easier to have the Groove Basin server run automatically on startup on the remote machine, eliminating the need to start and stop the server every time you log in via SSH. The script now assumes that the Groove Basin server is already running by default. You can still start up the server remotely with the `-s` option.
 
 ## Installation
 To use this script you need to first install [Groove Basin](http://groovebasin.com/). There is [a PPA](https://github.com/andrewrk/groovebasin#ubuntu) available for Ubuntu with a relatively recent version, but the older release available in the Ubuntu repositories works just fine. You can also [install the latest version from source](https://github.com/andrewrk/groovebasin#from-source).
@@ -30,10 +31,11 @@ That's it -- you should now be able to run the script from your local machine an
     ./gb.sh
 
 # Options
-By default the script just connects to the Groove Basin server. However there are two options available:
+By default the script just logs into the remote server over SSH, forwards the Groove Basin server port, and opens a browser window with the player client. However there are three additional options available:
 
 * `-h`: Display a help message
 * `-k`: Remove database lock that may prevent Groove Basin from running if it was not closed properly
+* `-s`: Start the Groove Basin server remotely on connect
 
 Regarding the second option, there is no way to stop the Groove Basin server other than terminating it (`Ctrl-C`). This sometimes results in a lock on the Groove Basin database, preventing further connections and causing an error when trying to start Groove Basin. This might also happen when the SSH connection is interrupted or dies unexpectedly. The `-k` option kills the nodejs server to remove the lock, and then restarts Groove Basin as normal.
 
